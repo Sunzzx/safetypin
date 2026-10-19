@@ -16,6 +16,27 @@ import {
 
 const DELHI_CENTER = [28.6139, 77.2090];
 
+const MAP_PROVIDERS = {
+  osm: {
+    name: "Standard OSM",
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+    subdomains: ["a", "b", "c"]
+  },
+  dark: {
+    name: "Night Shield",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    attribution: "&copy; Esri &mdash; OpenStreetMap contributors",
+    subdomains: ["server"]
+  },
+  satellite: {
+    name: "Satellite",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    attribution: "&copy; Esri, Maxar, Earthstar Geographics",
+    subdomains: ["server"]
+  }
+};
+
 const SAFE_PLACES = [
   { id: 1, name: 'Parliament Street Police Station', type: 'police', lat: 28.6225, lng: 77.2115, rating: 4.2 },
   { id: 2, name: 'Connaught Place PCR Booth', type: 'police', lat: 28.6315, lng: 77.2167, rating: 4.0 },
@@ -153,6 +174,7 @@ export default function SafetyPinApp() {
   const [showSafePlaces, setShowSafePlaces] = useState(true);
   const [showDangerZones, setShowDangerZones] = useState(true);
   const [placeFilter, setPlaceFilter] = useState('all');
+  const [mapProvider, setMapProvider] = useState('osm');
 
   // Reviews State
   const [reviews, setReviews] = useState([
@@ -451,6 +473,16 @@ export default function SafetyPinApp() {
                         {routeInfo.safety}/100
                       </span>
                     </div>
+                    {fromLocation && toLocation && (
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&origin=${fromLocation.lat},${fromLocation.lng}&destination=${toLocation.lat},${toLocation.lng}&travelmode=walking`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-2.5 px-3 rounded-xl shadow-lg shadow-blue-500/20 text-xs flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                      >
+                        <Navigation className="w-3.5 h-3.5" /> Navigate with Google Maps ↗
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
@@ -481,16 +513,43 @@ export default function SafetyPinApp() {
 
             {/* Map */}
             <div className="lg:col-span-8 bg-[#0f1629] border border-slate-800/50 rounded-2xl overflow-hidden shadow-xl min-h-[500px] relative">
-              <div className="absolute top-4 left-4 z-[1000] bg-[#0a0f1a]/90 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="text-slate-300">Live Map</span>
-                <span className="text-slate-600">|</span>
-                <span className="text-slate-400">OpenStreetMap</span>
+              <div className="absolute top-4 left-4 right-4 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+                <div className="flex items-center gap-2 pointer-events-auto bg-[#0a0f1a]/90 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-xl text-xs shadow-lg">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-slate-200 font-semibold">100% Free Live Map</span>
+                  <span className="text-slate-600">|</span>
+                  <span className="text-emerald-400 font-medium">No API Key Required</span>
+                </div>
+                <div className="flex items-center gap-1.5 pointer-events-auto bg-[#0a0f1a]/90 backdrop-blur-md border border-slate-800 p-1 rounded-xl text-xs shadow-lg">
+                  {Object.entries(MAP_PROVIDERS).map(([k, p]) => (
+                    <button key={k} onClick={() => setMapProvider(k)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${mapProvider === k ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-slate-400 hover:text-slate-200'}`}>
+                      {p.name}
+                    </button>
+                  ))}
+                  {fromLocation && toLocation ? (
+                    <a href={`https://www.google.com/maps/dir/?api=1&origin=${fromLocation.lat},${fromLocation.lng}&destination=${toLocation.lat},${toLocation.lng}&travelmode=walking`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="ml-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-600/30 text-blue-300 border border-blue-500/40 hover:bg-blue-600/50 transition-all flex items-center gap-1">
+                      <Navigation className="w-3 h-3 text-blue-400" /> Google Maps ↗
+                    </a>
+                  ) : (
+                    <a href={`https://www.google.com/maps/@${mapCenter[0]},${mapCenter[1]},13z`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="ml-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-600/30 text-blue-300 border border-blue-500/40 hover:bg-blue-600/50 transition-all flex items-center gap-1">
+                      <Navigation className="w-3 h-3 text-blue-400" /> Google Maps ↗
+                    </a>
+                  )}
+                </div>
               </div>
               <MapContainer center={DELHI_CENTER} zoom={12} style={{ height: '100%', minHeight: '500px', width: '100%' }}
                 className="rounded-2xl" zoomControl={false}>
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>' />
+                <TileLayer
+                  key={mapProvider}
+                  url={MAP_PROVIDERS[mapProvider].url}
+                  attribution={MAP_PROVIDERS[mapProvider].attribution}
+                  subdomains={MAP_PROVIDERS[mapProvider].subdomains || ["a","b","c"]}
+                />
                 <MapRecenter center={mapCenter} />
 
                 {/* Safe Place Markers */}
@@ -499,7 +558,11 @@ export default function SafetyPinApp() {
                     <Popup className="custom-popup">
                       <div className="text-sm font-bold">{p.name}</div>
                       <div className="text-xs text-gray-600 capitalize">{p.type.replace('_',' ')}</div>
-                      <div className="text-xs mt-1">Rating: {p.rating}/5</div>
+                      <div className="text-xs mt-1 font-semibold text-amber-600">Rating: {p.rating}/5</div>
+                      <a href={`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`} target="_blank" rel="noopener noreferrer"
+                        className="mt-1.5 inline-flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-700 font-semibold underline">
+                        Open in Google Maps ↗
+                      </a>
                     </Popup>
                   </Marker>
                 ))}
