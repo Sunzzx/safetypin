@@ -2079,27 +2079,6 @@ export default function SafetyPinApp() {
             </div>
           </section>
 
-          {/* Stats Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { label: 'Routes Scored', value: '12.4K', icon: Route, c: 'emerald' },
-              { label: 'Street Audits', value: '3,287', icon: Eye, c: 'violet' },
-              { label: 'Active Users', value: '8,912', icon: Users, c: 'blue' },
-              { label: 'SOS Resolved', value: '1,043', icon: Shield, c: 'rose' },
-            ].map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="bg-[#0f1629] border border-slate-800/50 rounded-2xl p-4 flex items-center gap-3 hover:border-slate-700/80 transition-colors">
-                  <div className={`p-2.5 rounded-xl bg-${s.c}-500/10 text-${s.c}-400`}><Icon className="w-5 h-5" /></div>
-                  <div>
-                    <span className="text-xl font-bold text-white">{s.value}</span>
-                    <span className="block text-[11px] text-slate-500">{s.label}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
           {/* ━━━ NEW DEDICATED SECTION: AI SAFETY EXPERT & SMART ASSISTANT ━━━ */}
           <div className="bg-gradient-to-r from-rose-950/40 via-[#0f1629] to-[#0f1629] border border-rose-500/30 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl">
             <div className="flex items-center gap-4">
