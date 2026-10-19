@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
-  Shield, MapPin, AlertTriangle, Navigation, Clock, Users, PhoneCall,
+  Shield, MapPin, AlertTriangle, Navigation, Clock, Users, PhoneCall, BookOpen, HelpCircle, FileText, LifeBuoy,
   Lock, Share2, Flame, Plus, Search, Star, ChevronRight, X,
   Eye, Phone, Zap, Heart, Home, Bell, User, ArrowRight,
   Sparkles, Route, ThumbsUp, Lightbulb, Info, Activity,
@@ -1343,6 +1343,7 @@ export default function SafetyPinApp() {
   const [callState, setCallState] = useState('incoming'); // 'incoming' | 'connected'
   const [callDuration, setCallDuration] = useState(0);
   const [fakeCallCustomizeOpen, setFakeCallCustomizeOpen] = useState(false);
+  const [howToUseOpen, setHowToUseOpen] = useState(false);
   const [customAudioUrl, setCustomAudioUrl] = useState(null);
   const [customAudioName, setCustomAudioName] = useState('');
   const [micAudioUrl, setMicAudioUrl] = useState(null);
@@ -1988,6 +1989,16 @@ export default function SafetyPinApp() {
                 <Search className="w-3.5 h-3.5" />
               </button>
             </div>
+
+            {/* How to Use Guide Button (Stays at Top) */}
+            <button
+              onClick={() => setHowToUseOpen(true)}
+              className="px-2.5 py-1.5 rounded-xl border bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20 text-xs flex items-center gap-1.5 transition-all shadow-sm font-semibold active:scale-95"
+              title="How to Use Guide & Emergency Resources"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">How to Use</span>
+            </button>
 
             {/* Camouflage Decoy Button */}
             <button
@@ -3190,7 +3201,8 @@ export default function SafetyPinApp() {
           </div>
         )}
 
-      </main>
+
+              </main>
 
       {/* ━━━ FOOTER (ORIGINAL) ━━━ */}
       <footer className="border-t border-slate-800/40 mt-12 py-6">
@@ -3726,6 +3738,365 @@ export default function SafetyPinApp() {
       )}
 
     
+      
+      {/* ━━━ HOW TO USE & RESOURCES OVERLAY (TOP MODAL) ━━━ */}
+      {howToUseOpen && (
+        <div className="fixed inset-0 z-[2350] bg-black/85 backdrop-blur-md flex justify-center p-3 sm:p-6 overflow-y-auto" onClick={() => setHowToUseOpen(false)}>
+          <div onClick={e => e.stopPropagation()} className="bg-[#0f1629] border border-slate-700 rounded-3xl max-w-4xl w-full p-5 sm:p-8 shadow-2xl space-y-6 my-auto max-h-[92vh] overflow-y-auto">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800 sticky top-0 bg-[#0f1629]/95 backdrop-blur z-10 -mt-2 pt-2">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    How to Use SafetyPin
+                    <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full font-mono uppercase font-semibold">Quick Guide & Helplines</span>
+                  </h3>
+                  <p className="text-xs text-slate-400">What tool to use, step-by-step instructions, and official emergency resources.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setHowToUseOpen(false)}
+                className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-all border border-slate-800"
+                title="Close Guide"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Section 1: Real-Life Scenarios (What to Use) */}
+            <div className="space-y-4">
+              <div className="border-b border-slate-800/80 pb-2">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-400" /> Real-Life Situations: What Tool Should I Use?
+                </h4>
+                <p className="text-xs text-slate-400 mt-0.5">Quick guide on which safety tool to tap in each situation.</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                
+                {/* Scenario 1 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider block mb-1">Situation 1</span>
+                    <h5 className="text-xs font-bold text-white">Walking alone and sensing someone following you</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Send your <strong>Live Walk Link</strong> on WhatsApp so family has your live map. If someone approaches, turn on the <strong>Loud Whistle</strong> to alert people nearby, or flash the <strong>Flashing Light (Strobe)</strong> to blind them while you run to an open shop.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Whistle & Strobe</span>
+                    <button onClick={() => { setHowToUseOpen(false); setActiveTab('tactical'); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Open Tools →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scenario 2 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wider block mb-1">Situation 2</span>
+                    <h5 className="text-xs font-bold text-white">Cab or auto driver takes a strange turn</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Your <strong>Wrong Route Alert</strong> will sound an alarm if the cab leaves the safe road. Immediately tap <strong>Ring My Phone (Fake Call)</strong>, answer loudly saying <em>"Dad, I am at the corner, see you in 1 minute!"</em> and tell the driver to stop.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Fake Call</span>
+                    <button onClick={() => { setHowToUseOpen(false); triggerFakeCall(); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Test Call →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scenario 3 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider block mb-1">Situation 3</span>
+                    <h5 className="text-xs font-bold text-white">Someone demands you hand over or show your phone</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Tap the <strong>[ 🧮 Decoy ]</strong> button at the top of your screen. SafetyPin turns into a normal, working calculator. If anyone inspects your phone, they only see a calculator. Tap 'Exit' or type <strong>999=</strong> to come back.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Calculator Decoy</span>
+                    <button onClick={() => { setHowToUseOpen(false); setDecoyMode(true); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Open Decoy →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scenario 4 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider block mb-1">Situation 4</span>
+                    <h5 className="text-xs font-bold text-white">Sudden struggle or someone grabs you</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      You don't need to unlock your phone. Just <strong>shake your phone hard</strong>. The built-in motion sensor will trigger emergency help. If your hands are free, tap the big red <strong>Activate SOS</strong> button.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Shake for Help</span>
+                    <button onClick={() => { setHowToUseOpen(false); setActiveTab('sos'); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Open SOS →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scenario 5 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-teal-400 uppercase tracking-wider block mb-1">Situation 5</span>
+                    <h5 className="text-xs font-bold text-white">Underground parking or remote road with NO internet</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Use <strong>Offline SMS SOS</strong>. It creates a ready-to-send text message with your exact GPS coordinates addressed to 112 and family. SMS works over cellular signals even when mobile data and Wi-Fi are totally dead.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Offline SMS</span>
+                    <button onClick={() => { setHowToUseOpen(false); triggerOfflineSms(); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Open SMS →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scenario 6 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-violet-400 uppercase tracking-wider block mb-1">Situation 6</span>
+                    <h5 className="text-xs font-bold text-white">Experiencing harassment or threats you need proof of</h5>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Tap <strong>Record Audio Proof</strong> in Tactical Tools. It quietly records ambient sound and saves the file with your GPS coordinates and time. You can play it back or download it as legal evidence.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-400">Best: Audio Proof</span>
+                    <button onClick={() => { setHowToUseOpen(false); setActiveTab('tactical'); }} className="text-xs text-emerald-400 hover:underline font-bold">
+                      Open Tools →
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Section 2: Step-by-Step Feature Guides (How to Use) */}
+            <div className="space-y-4">
+              <div className="border-b border-slate-800/80 pb-2">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" /> Step-by-Step Feature Walkthrough
+                </h4>
+                <p className="text-xs text-slate-400 mt-0.5">How each tool works and how to activate it.</p>
+              </div>
+
+              <div className="space-y-3">
+
+                {/* Guide 1 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 p-4 rounded-2xl space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                      <Route className="w-3.5 h-3.5 text-emerald-400" /> 1. How to Find the Safest Walking Route
+                    </h5>
+                    <button onClick={() => { setHowToUseOpen(false); setActiveTab('route'); }} className="text-[11px] text-emerald-400 hover:underline font-semibold">
+                      Go to Find Route →
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    1. Tap the <strong>Find Route</strong> tab on the navigation menu.<br />
+                    2. Type your start and destination points in the search boxes.<br />
+                    3. SafetyPin plots the <strong>Safe Route</strong> (prioritizing bright streetlights, open shops, and police booths) alongside the direct route.<br />
+                    4. Tap the <strong>Safe Havens (24/7)</strong> filter on the map to see verified 24/7 Apollo pharmacies and CCTV petrol pumps you can take shelter in.
+                  </p>
+                </div>
+
+                {/* Guide 2 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 p-4 rounded-2xl space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                      <PhoneCall className="w-3.5 h-3.5 text-emerald-400" /> 2. How to Set Up & Use Fake Phone Call
+                    </h5>
+                    <button onClick={() => { setHowToUseOpen(false); setFakeCallCustomizeOpen(true); }} className="text-[11px] text-emerald-400 hover:underline font-semibold">
+                      Customize Caller →
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    1. Tap <strong>Tactical Tools</strong> or <strong>SOS Kit</strong>.<br />
+                    2. Click <strong>Edit Caller</strong> to set the name (e.g. "Dad", "Police") and phone number.<br />
+                    3. Choose audio mode: default voice script, an uploaded voice note from family, or record your own voice.<br />
+                    4. Tap <strong>Ring My Phone Now</strong>. A realistic phone call screen will ring with Answer and Decline buttons.
+                  </p>
+                </div>
+
+                {/* Guide 3 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 p-4 rounded-2xl space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                      <Calculator className="w-3.5 h-3.5 text-cyan-400" /> 3. How to Use Secret Calculator Screen
+                    </h5>
+                    <button onClick={() => { setHowToUseOpen(false); setDecoyMode(true); }} className="text-[11px] text-cyan-400 hover:underline font-semibold">
+                      Open Calculator →
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    1. Tap the <strong>[ 🧮 Decoy ]</strong> button at the top header.<br />
+                    2. The whole app is instantly replaced by a real, dark calculator where you can perform calculations.<br />
+                    3. To return to SafetyPin, click <strong>Exit Calculator ↗</strong> in the top right, or type <strong>999=</strong> on the keypad.
+                  </p>
+                </div>
+
+                {/* Guide 4 */}
+                <div className="bg-[#0c1222] border border-slate-800/80 p-4 rounded-2xl space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                      <Share2 className="w-3.5 h-3.5 text-blue-400" /> 4. How to Share Live Location with Family
+                    </h5>
+                    <button onClick={() => { setHowToUseOpen(false); triggerEscortLink(); }} className="text-[11px] text-blue-400 hover:underline font-semibold">
+                      Get Walk Link →
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    1. In Tactical Tools or Find Route, click <strong>Share Live Walk Link</strong>.<br />
+                    2. A private link is created with your live GPS location on Google Maps and phone battery percentage.<br />
+                    3. Click <strong>Share on WhatsApp</strong> to send it to your parents or partner without requiring them to install any app.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Section 3: Verified Emergency Helplines & Legal Rights */}
+            <div className="space-y-4">
+              <div className="border-b border-slate-800/80 pb-2">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <LifeBuoy className="w-4 h-4 text-rose-400" /> Emergency Helplines & Legal Rights
+                </h4>
+                <p className="text-xs text-slate-400 mt-0.5">Verified 24/7 helplines and citizen legal protections.</p>
+              </div>
+
+              {/* Helplines Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                
+                <a href="tel:112" className="bg-[#0c1222] border border-red-500/40 hover:border-red-500 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-red-400 group-hover:scale-105 transition-transform">112</span>
+                    <Phone className="w-4 h-4 text-red-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">National Emergency</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Police, Fire & Ambulance</span>
+                </a>
+
+                <a href="tel:1091" className="bg-[#0c1222] border border-rose-500/40 hover:border-rose-500 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-rose-400 group-hover:scale-105 transition-transform">1091</span>
+                    <Phone className="w-4 h-4 text-rose-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">Women Helpline (24/7)</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Distress rescue & harassment</span>
+                </a>
+
+                <a href="tel:1090" className="bg-[#0c1222] border border-amber-500/40 hover:border-amber-500 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-amber-400 group-hover:scale-105 transition-transform">1090</span>
+                    <Phone className="w-4 h-4 text-amber-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">Women Powerline</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Stalking & phone harassment</span>
+                </a>
+
+                <a href="tel:1930" className="bg-[#0c1222] border border-cyan-500/40 hover:border-cyan-500 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-cyan-400 group-hover:scale-105 transition-transform">1930</span>
+                    <Phone className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">Cyber Crime Helpline</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Blackmail & morphed images</span>
+                </a>
+
+                <a href="tel:139" className="bg-[#0c1222] border border-slate-800 hover:border-slate-700 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-white group-hover:scale-105 transition-transform">139</span>
+                    <Phone className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">Railway Police (RPF)</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Train & station security</span>
+                </a>
+
+                <a href="tel:155370" className="bg-[#0c1222] border border-slate-800 hover:border-slate-700 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-white group-hover:scale-105 transition-transform">155370</span>
+                    <Phone className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">DMRC Metro Helpline</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Delhi Metro women safety</span>
+                </a>
+
+                <a href="tel:1512" className="bg-[#0c1222] border border-slate-800 hover:border-slate-700 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xl font-black text-white group-hover:scale-105 transition-transform">1512</span>
+                    <Phone className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">Mumbai Railway (GRP)</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">Mumbai local train emergency</span>
+                </a>
+
+                <a href="https://api.whatsapp.com/send?phone=917217735372" target="_blank" rel="noopener noreferrer" className="bg-[#0c1222] border border-emerald-500/40 hover:border-emerald-500 p-3.5 rounded-2xl transition-all group block">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-base font-black text-emerald-400 group-hover:scale-105 transition-transform">NCW WhatsApp</span>
+                    <ExternalLink className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <span className="text-xs font-bold text-white block">7217735372</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">National Commission for Women</span>
+                </a>
+
+              </div>
+
+              {/* Legal Rights Card */}
+              <div className="bg-[#0c1222] border border-slate-800 rounded-2xl p-5 space-y-3">
+                <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-amber-400" /> 4 Legal Rights Every Commuter Should Know
+                </h5>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+                  <div className="p-3 bg-[#080d18] rounded-xl border border-slate-800/80 space-y-0.5">
+                    <span className="font-bold text-emerald-400 block">1. Right to Zero FIR</span>
+                    <p className="text-[11px] leading-relaxed text-slate-300">
+                      A police station cannot refuse to file an FIR by saying the crime happened in another area. They must register a "Zero FIR" immediately and transfer it to the concerned police station later.
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-[#080d18] rounded-xl border border-slate-800/80 space-y-0.5">
+                    <span className="font-bold text-emerald-400 block">2. Protection Against Night Arrest</span>
+                    <p className="text-[11px] leading-relaxed text-slate-300">
+                      Under Section 46(4) CrPC, women cannot be arrested after sunset and before sunrise, except under rare circumstances with a female magistrate's prior order.
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-[#080d18] rounded-xl border border-slate-800/80 space-y-0.5">
+                    <span className="font-bold text-emerald-400 block">3. Right to Statement at Home</span>
+                    <p className="text-[11px] leading-relaxed text-slate-300">
+                      Under Section 160 CrPC, a woman is not required to physically report to a police station for interrogation. Police officers must record statements at her residence in presence of family or female constable.
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-[#080d18] rounded-xl border border-slate-800/80 space-y-0.5">
+                    <span className="font-bold text-emerald-400 block">4. Right to Free Legal Aid</span>
+                    <p className="text-[11px] leading-relaxed text-slate-300">
+                      Under the Legal Services Authorities Act, every woman in India is entitled to free legal aid and representation from government legal services, regardless of financial background.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
+
+
       {/* ━━━ STROBE DEFENSE OVERLAY (DISORIENTING FLASH) ━━━ */}
       {strobeActive && (
         <div
