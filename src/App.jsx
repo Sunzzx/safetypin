@@ -178,7 +178,7 @@ export default function SafetyPinApp() {
 
   // Reviews State
   const [reviews, setReviews] = useState([
-    { id: 1, street: 'Connaught Place Outer Circle', score: 92, tags: ['Well-Lit','High Footfall','Police Booth Nearby'], user: 'Ayu K.', avatar: 'AK', time: '10 mins ago', likes: 24, comment: 'Felt completely safe even at 11 PM. Great police presence and bright lights everywhere.' },
+    { id: 1, street: 'Connaught Place Outer Circle', score: 92, tags: ['Well-Lit','High Footfall','Police Booth Nearby'], user: 'Ananya S.', avatar: 'AS', time: '10 mins ago', likes: 24, comment: 'Felt completely safe even at 11 PM. Great police presence and bright lights everywhere.' },
     { id: 2, street: 'IIT Delhi Gate 3 Road', score: 85, tags: ['CCTV Active','Patrolled','Campus Security'], user: 'Priya S.', avatar: 'PS', time: '1 hour ago', likes: 18, comment: 'Good security, campus guards are responsive. Well maintained lighting.' },
     { id: 3, street: 'Hauz Khas Village Lane', score: 78, tags: ['Well-Lit','Crowded','Restaurants Open Late'], user: 'Meera R.', avatar: 'MR', time: '2 hours ago', likes: 12, comment: 'Safe until midnight due to restaurants. Gets quiet and darker after that.' },
     { id: 4, street: 'Dark Alley near Sector 18 Market', score: 34, tags: ['Broken Streetlights','Deserted After 9 PM','No CCTV'], user: 'Anonymous', avatar: 'AN', time: '3 hours ago', likes: 31, comment: 'Extremely unsafe after dark. Multiple women reported harassment. Avoid at all costs.' },
@@ -826,7 +826,7 @@ export default function SafetyPinApp() {
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-emerald-500" />
             <span className="text-sm font-bold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">SafetyPin</span>
-            <span className="text-xs text-slate-600">by Ayu Kandwal</span>
+            <span className="text-xs text-slate-600">&bull; Community Safe Mobility</span>
           </div>
           <p className="text-xs text-slate-600 text-center">Built with care for women's safety. Your data never leaves your device.</p>
         </div>
